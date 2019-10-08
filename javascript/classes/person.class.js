@@ -1,13 +1,13 @@
 class Person
 {
-    constructor(firstName, lastName, profilePicture)
+    constructor(firstName, lastName, profilePicture, birthDate, gender, city, country)
     {
         this.firstName = firstName;
         this.lastName = lastName;
-        this._profilePicture = profilePicture;
-    }
-    get profilePicture()
-    {
-        return this._profilePicture;
+        this.profilePicture = profilePicture;
+        this.birthDate = birthDate;
+        this.gender = gender;
+        this.city = city;
+        this.country = country;
     }
 }
