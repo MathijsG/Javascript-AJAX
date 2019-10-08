@@ -4,14 +4,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Govert's Gezichtengenerator</title>
+    <title>FBI databank</title>
+    <link rel="stylesheet" href="stylesheets/style.css">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-    
 </head>
 <body>
     <div id="container">
-        <marquee><h1>Govert's Gezichtengenerator</h1></marquee> 
-        <table id="userTable" class="table">
+        <img id="logo" src="images/logo.png"><h1>FBI-databank</h1> 
+        <table id="userTable" class="table table-dark">
             <thead>
                 <tr>
                     <th scope="col">#</th>
@@ -27,7 +27,7 @@
             <tbody id="tableOutput">
             </tbody>
         </table>
-        <button id="generator" class="btn btn-primary">Govert, geef me een gezicht.</button>
+        <button id="generator" class="btn btn-primary">Geef resultaten weer</button>
         <label for="amount">Hoeveelheid resultaten:</label>
         <input type="number" name="amount" id="amount" min="1" max="99" maxlength="2" value="1">
     </div>
