@@ -29,5 +29,17 @@
 #fullMap
 {
     width: 100%;
-    height: 800px;
+    height: 600px;
+}
+
+.leaflet-popup-content span
+{
+    text-decoration: blink;
+    color: red;
+}
+
+.leaflet-popup-content img
+{
+    margin-left: auto;
+    margin-right: auto;
 }

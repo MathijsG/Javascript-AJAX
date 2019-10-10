@@ -1,6 +1,6 @@
 class Person
 {
-    constructor(firstName, lastName, profilePicture, birthDate, gender, city, country, latitude, longitude)
+    constructor(firstName, lastName, profilePicture, birthDate, gender, city, country, latitude, longitude, crime)
     {
         this.firstName = firstName;
         this.lastName = lastName;
@@ -10,6 +10,7 @@ class Person
         this.city = city;
         this.country = country;
         this.latitude = latitude;
-        this.longitude = longitude; 
+        this.longitude = longitude;
+        this.crime = crime;
     }
 }

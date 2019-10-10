@@ -5,6 +5,17 @@ window.onload = function()
     document.querySelector("#genderField").addEventListener('change', function() { selectedGender(this.value);});
     // Maak de kaartdiv eerst onzichtbaar
     document.querySelector("#fullMap").style.visibility = 'hidden';
+    
+    console.log(giveRandomCrime());
+}
+function appendParametersToUrl()
+{
+    let url = new URL('https://example.com?foo=1&bar=2');
+    let params = new URLSearchParams(url.search.slice(1));
+
+    //Add a second foo parameter.
+    params.append('foo', 4);
+    //Query string is now: 'foo=1&bar=2&foo=4'
 }
 
 // Maak asynchrone functie die JSON ophaalt
@@ -47,22 +58,27 @@ async function retrieveData(dataFeed)
     })
     .addTo(fullMap);
 
+    let arrayOfLatLngs = []; // Array met coordinaten
     let person = [];
-    
+    var bounds = new L.LatLngBounds(arrayOfLatLngs);
     // Itereer door de JSON-resultaten en sla de gegevens op in een array van persoonsobjecten
     for (let i = 0; i < myJson.results.length; i++)
     {
         let output = JSON.parse(JSON.stringify(myJson.results[i]));
 
-        person[i] = new Person(output.name.first, output.name.last, output.picture.large, output.dob.date, output.gender, output.location.city, output.location.country, output.location.coordinates.latitude, output.location.coordinates.longitude);
+        person[i] = new Person(output.name.first, output.name.last, output.picture.large, output.dob.date, output.gender, output.location.city, output.location.country, output.location.coordinates.latitude, output.location.coordinates.longitude, giveRandomCrime());
         addRow("tableOutput",i, person[i].profilePicture, person[i].latitude, person[i].longitude, person[i].firstName, person[i].lastName, person[i].gender, person[i].birthDate, person[i].city, person[i].country);
+        
+        // Voeg de markers iteratief toe
         var marker = L.marker([person[i].latitude, person[i].longitude]).addTo(fullMap);
-        var popup = marker.bindPopup(person[i].firstName + ' ' + person[i].lastName + '<br><img src="' + person[i].profilePicture+ '">');
-        //addMarker("fullMap",person[i].latitude, person[i].longitude);
-        console.log(person[i].latitude, person[i].longitude);
-    }  
-
-        document.querySelector("#fullMap").style.visibility = 'visible';
+        // Popup van kaart-items
+        var popup = marker.bindPopup(person[i].firstName + ' ' + person[i].lastName + '<br><img src="' + person[i].profilePicture + '"><br>Gezocht voor:<span> ' + person[i].crime + '</span>');
+        
+        // Voeg latitude en longitude van elke user in een array voor map-centrering
+        arrayOfLatLngs[i] = [person[i].latitude, person[i].longitude];
+    }
+    document.querySelector("#fullMap").style.visibility = 'visible';
+    fullMap.fitBounds([arrayOfLatLngs]);
 }
 
 function addRow(tableId, counter, profilePicture, latitude, longitude, firstName, lastName, gender, birthDate)
@@ -139,14 +155,10 @@ function addMarker(mapName, latitude, longitude)
     L.marker([latitude, longitude]).addTo(mapName);
 }
 
-// function renderFullMap(latitude, longitude)
-// {
-//     L.marker([latitude, longitude]).addTo(fullMap);
-//     L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}',
-//     {
-//         maxZoom: 18,
-//         id: 'mapbox.streets',
-//         accessToken: 'pk.eyJ1IjoibXNnYmlnaG91c2UiLCJhIjoiY2sxaHdrY214MDZkbDNoanpwNW9rcjRsOSJ9.YXMtqR_k0YWeKNnAZHmhdg'
-//     })
-//     .addTo(fullMap);
-// }
+function giveRandomCrime()
+{
+    let crime = ["Dragen van sokken met slippers", "Neusknijpen", "Luisteren naar Celine Dion", "Beledigen ambtenaar", "PVV stemmen", "Richtingaanwijzer niet gebruiken", "Smakken", "Korsten niet opeten", "Boter terugsmeren", "Nagelbijten", "Verticaal filmen"];
+    let random = Math.floor(Math.random() * crime.length);
+    console.log(random);
+    return crime[random];
+}
