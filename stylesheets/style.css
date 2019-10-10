@@ -38,8 +38,7 @@
     color: red;
 }
 
-.leaflet-popup-content img
+.leaflet-popup-content
 {
-    margin-left: auto;
-    margin-right: auto;
+    text-align: center;
 }

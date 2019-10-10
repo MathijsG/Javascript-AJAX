@@ -59,23 +59,24 @@ async function retrieveData(dataFeed)
     .addTo(fullMap);
 
     let arrayOfLatLngs = []; // Array met coordinaten
-    let person = [];
     var bounds = new L.LatLngBounds(arrayOfLatLngs);
     // Itereer door de JSON-resultaten en sla de gegevens op in een array van persoonsobjecten
     for (let i = 0; i < myJson.results.length; i++)
     {
         let output = JSON.parse(JSON.stringify(myJson.results[i]));
 
-        person[i] = new Person(output.name.first, output.name.last, output.picture.large, output.dob.date, output.gender, output.location.city, output.location.country, output.location.coordinates.latitude, output.location.coordinates.longitude, giveRandomCrime());
-        addRow("tableOutput",i, person[i].profilePicture, person[i].latitude, person[i].longitude, person[i].firstName, person[i].lastName, person[i].gender, person[i].birthDate, person[i].city, person[i].country);
+        // Koppel bepaalde gegevens van de JSON-feed aan persoonobjecten
+        let person = new Person(output.name.first, output.name.last, output.picture.large, output.dob.date, output.gender, output.location.city, output.location.country, output.location.coordinates.latitude, output.location.coordinates.longitude, giveRandomCrime());
+        addRow("tableOutput",i, person.profilePicture, person.latitude, person.longitude, person.firstName, person.lastName, person.gender, person.birthDate, person.city, person.country);
         
         // Voeg de markers iteratief toe
-        var marker = L.marker([person[i].latitude, person[i].longitude]).addTo(fullMap);
+        var marker = L.marker([person.latitude, person.longitude]).addTo(fullMap);
         // Popup van kaart-items
-        var popup = marker.bindPopup(person[i].firstName + ' ' + person[i].lastName + '<br><img src="' + person[i].profilePicture + '"><br>Gezocht voor:<span> ' + person[i].crime + '</span>');
+        var popup = marker.bindPopup(person.firstName + ' ' + person.lastName + '<br><img src="' + person.profilePicture + '"><br>Gezocht voor:<br><span> ' + person.crime + '</span>');
         
         // Voeg latitude en longitude van elke user in een array voor map-centrering
-        arrayOfLatLngs[i] = [person[i].latitude, person[i].longitude];
+        arrayOfLatLngs[i] = [person.latitude, person.longitude];
+        //arrayOfLatLngs.push(...[person.latitude, person.longitude]); werkt niet
     }
     document.querySelector("#fullMap").style.visibility = 'visible';
     fullMap.fitBounds([arrayOfLatLngs]);
@@ -157,8 +158,7 @@ function addMarker(mapName, latitude, longitude)
 
 function giveRandomCrime()
 {
-    let crime = ["Dragen van sokken met slippers", "Neusknijpen", "Luisteren naar Celine Dion", "Beledigen ambtenaar", "PVV stemmen", "Richtingaanwijzer niet gebruiken", "Smakken", "Korsten niet opeten", "Boter terugsmeren", "Nagelbijten", "Verticaal filmen"];
+    let crime = ["Dragen van sokken in slippers", "Neusknijpen", "Luisteren naar Celine Dion", "Beledigen ambtenaar", "PVV stemmen", "Richtingaanwijzer niet gebruiken", "Smakken", "Korsten niet opeten", "Boter terugsmeren", "Nagelbijten", "Verticaal filmen"];
     let random = Math.floor(Math.random() * crime.length);
-    console.log(random);
     return crime[random];
 }
