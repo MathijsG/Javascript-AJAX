@@ -1,15 +1,17 @@
-// Doe dingen na het renderen
+// Koppel events aan bepaalde elementen
 window.onload = function()
 {
     document.querySelector("#generator").addEventListener('click', function() {retrieveData('https://randomuser.me/api/');});
     document.querySelector("#genderField").addEventListener('change', function() { selectedGender(this.value);});
+    // Maak de kaartdiv eerst onzichtbaar
+    document.querySelector("#fullMap").style.visibility = 'hidden';
 }
 
 // Maak asynchrone functie die JSON ophaalt
 async function retrieveData(dataFeed)
 {
     //flush earlier results op een tijdelijke manier
-    document.querySelector("#tableOutput").innerHTML ="";
+    document.querySelector("#tableOutput").innerHTML = "";
 
     // Gebruik amount voor ophalen van hoeveelheid personen
     amount = document.querySelector("#amount").value;
@@ -35,15 +37,32 @@ async function retrieveData(dataFeed)
     const response = await fetch(dataFeed);
     const myJson = await response.json();
     
-    
+    // Initializeren van de hoofdkaart
+    var fullMap = L.map('fullMap').setView([51.505, -0.09], 4);
+    L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}',
+    {
+        maxZoom: 18,
+        id: 'mapbox.streets',
+        accessToken: 'pk.eyJ1IjoibXNnYmlnaG91c2UiLCJhIjoiY2sxaHdrY214MDZkbDNoanpwNW9rcjRsOSJ9.YXMtqR_k0YWeKNnAZHmhdg'
+    })
+    .addTo(fullMap);
+
     let person = [];
+    
+    // Itereer door de JSON-resultaten en sla de gegevens op in een array van persoonsobjecten
     for (let i = 0; i < myJson.results.length; i++)
     {
         let output = JSON.parse(JSON.stringify(myJson.results[i]));
 
         person[i] = new Person(output.name.first, output.name.last, output.picture.large, output.dob.date, output.gender, output.location.city, output.location.country, output.location.coordinates.latitude, output.location.coordinates.longitude);
         addRow("tableOutput",i, person[i].profilePicture, person[i].latitude, person[i].longitude, person[i].firstName, person[i].lastName, person[i].gender, person[i].birthDate, person[i].city, person[i].country);
-    }
+        var marker = L.marker([person[i].latitude, person[i].longitude]).addTo(fullMap);
+        //var popup = marker.bindPopup(person[i].firstName + ' ' + person[i].lastName + '<img src="' + person[i].profilePicture'">');
+        //addMarker("fullMap",person[i].latitude, person[i].longitude);
+        console.log(person[i].latitude, person[i].longitude);
+    }  
+
+        document.querySelector("#fullMap").style.visibility = 'visible';
 }
 
 function addRow(tableId, counter, profilePicture, latitude, longitude, firstName, lastName, gender, birthDate)
@@ -93,6 +112,7 @@ function addRow(tableId, counter, profilePicture, latitude, longitude, firstName
     renderMap(myMap, counter, latitude, longitude);
 }
 
+// Functie voor het wisselen van de gender
 function selectedGender(gender)
 {
     if (!!gender) // NOT NOT operator
@@ -114,15 +134,19 @@ function renderMap(myMap, counter, latitude, longitude)
     .addTo(myMap[counter]);
 }
 
-function renderFullMap(latitude, longitude)
+function addMarker(mapName, latitude, longitude)
 {
-    fullMap = L.map('fullMap').setView([latitude, longitude], 4);
-    L.marker([latitude, longitude]).addTo(fullMap);
-    L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}',
-    {
-        maxZoom: 18,
-        id: 'mapbox.streets',
-        accessToken: 'pk.eyJ1IjoibXNnYmlnaG91c2UiLCJhIjoiY2sxaHdrY214MDZkbDNoanpwNW9rcjRsOSJ9.YXMtqR_k0YWeKNnAZHmhdg'
-    })
-    .addTo(fullMap);
+    L.marker([latitude, longitude]).addTo(mapName);
 }
+
+// function renderFullMap(latitude, longitude)
+// {
+//     L.marker([latitude, longitude]).addTo(fullMap);
+//     L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}',
+//     {
+//         maxZoom: 18,
+//         id: 'mapbox.streets',
+//         accessToken: 'pk.eyJ1IjoibXNnYmlnaG91c2UiLCJhIjoiY2sxaHdrY214MDZkbDNoanpwNW9rcjRsOSJ9.YXMtqR_k0YWeKNnAZHmhdg'
+//     })
+//     .addTo(fullMap);
+// }
