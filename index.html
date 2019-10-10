@@ -7,11 +7,20 @@
     <title>FBI databank</title>
     <link rel="stylesheet" href="stylesheets/style.css">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.5.1/dist/leaflet.css"
+  integrity="sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ=="
+  crossorigin=""/>
+<script src="https://unpkg.com/leaflet@1.5.1/dist/leaflet.js"
+  integrity="sha512-GffPMF3RvMeYyc1LWMHtK8EbPv0iNZ8/oTtHPx9/cc2ILxQ+u905qIwdpULaqDkyBKgOaB57QTMg7ztg8Jm2Og=="
+  crossorigin=""></script>
 </head>
 <body>
-    <div id="container">
-        <img id="logo" src="images/logo.png"><h1>FBI-databank</h1> 
-        <table id="userTable" class="table table-dark">
+    <div id="container" class="container">
+        <h1 class="logo text-center">
+            <a href="#" onclick="location.reload()"><img src="images/logo.png" width="100" height="100"></a>
+            <span>FBI-databank</span>
+        </h1>
+        <table id="userTable" class="table table-dark shadow p-3">
             <thead>
                 <tr>
                     <th scope="col">#</th>
@@ -22,16 +31,43 @@
                     <th scope="col">Geboortedatum:</th>
                     <th scope="col">Woonplaats:</th>
                     <th scope="col">Land:</th>
+                    <th scope="col">Huidige locatie:</th>
                 </tr>
             </thead>
             <tbody id="tableOutput">
             </tbody>
         </table>
-        <button id="generator" class="btn btn-primary">Geef resultaten weer</button>
-        <label for="amount">Hoeveelheid resultaten:</label>
-        <input type="number" name="amount" id="amount" min="1" max="99" maxlength="2" value="1">
+
+        <div class="form-row align-items-center">
+            <div class="col-auto my-1">
+                <label for="amount" class="col-form-label">Hoeveelheid resultaten:</label>
+            </div>
+            <div class="col-auto my-1">
+                <input type="number" name="amount" class="form-control form-control-sm" id="amount" min="1" max="99" maxlength="2" value="1">
+            </div>
+            
+            <div class="col-auto my-1">
+                <label for="genderField" class="col-form-label">Geslacht:</label>
+            </div>
+            
+            <div class="col-auto my-1">
+                <select id="genderField" name="genderField" class="form-control form-control-sm">
+                    <option value=""></option>
+                    <option value="male">Man</option>
+                    <option value="female">Vrouw</option>
+                </select>
+            </div>
+
+            <div class="col-auto my-1">
+                <button id="generator" class="btn btn-primary">Geef resultaten weer</button>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-auto">
+                <div id="fullMap"></div>
+            </div>
+        </div>
     </div>
-    
     <script src="javascript/main.js"></script>
     <script src="javascript/classes/person.class.js"></script>
     <script src="javascript/classes/retriever.class.js"></script>

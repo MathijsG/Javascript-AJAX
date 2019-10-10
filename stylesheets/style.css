@@ -1,16 +1,33 @@
-#logo
-{
-    float: left;
-}
-
-tbody img
+.profilePicture
 {
     border: 1px solid #ddd;
     border-radius: 4px;
     padding: 5px;
-    padding-bottom: 15px;
+    padding-bottom: 20px;
     background-color: white;
 
     max-width: 100%;
     height: auto;
+    filter: grayscale(100%);
+    /* box-shadow: 0 2.1rem 2rem rgba(0,0,0,0.4); */
+}
+
+.profilePicture:hover
+{
+    filter: none;
+}
+
+.geoMap
+{
+    position: inherit;
+    border: 1px solid black;
+    border-radius: 8px;
+    height: 180px;  /* or as desired */
+    width: 200px;  /* This means "100% of the width of its container", the .col-md-8 */
+}
+
+#fullMap
+{
+    width: 100%;
+    height: 200px;
 }
