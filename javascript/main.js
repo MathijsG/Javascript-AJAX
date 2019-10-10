@@ -57,7 +57,7 @@ async function retrieveData(dataFeed)
         person[i] = new Person(output.name.first, output.name.last, output.picture.large, output.dob.date, output.gender, output.location.city, output.location.country, output.location.coordinates.latitude, output.location.coordinates.longitude);
         addRow("tableOutput",i, person[i].profilePicture, person[i].latitude, person[i].longitude, person[i].firstName, person[i].lastName, person[i].gender, person[i].birthDate, person[i].city, person[i].country);
         var marker = L.marker([person[i].latitude, person[i].longitude]).addTo(fullMap);
-        //var popup = marker.bindPopup(person[i].firstName + ' ' + person[i].lastName + '<img src="' + person[i].profilePicture'">');
+        var popup = marker.bindPopup(person[i].firstName + ' ' + person[i].lastName + '<br><img src="' + person[i].profilePicture+ '">');
         //addMarker("fullMap",person[i].latitude, person[i].longitude);
         console.log(person[i].latitude, person[i].longitude);
     }  
