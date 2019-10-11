@@ -15,55 +15,72 @@
   crossorigin=""></script>
 </head>
 <body>
-    <div id="container" class="container">
-        <h1 class="logo text-center">
-            <a href="#" onclick="location.reload()"><img src="images/logo.png" width="100" height="100"></a>
-            <span>FBI-databank</span>
-        </h1>
-        <table id="userTable" class="table table-dark shadow p-3">
-            <thead>
-                <tr>
-                    <th scope="col">#</th>
-                    <th scope="col">Afbeelding:</th>
-                    <th scope="col">Voornaam:</th>
-                    <th scope="col">Achternaam:</th>
-                    <th scope="col">Geslacht:</th>
-                    <th scope="col">Geboortedatum:</th>
-                    <th scope="col">Woonplaats:</th>
-                    <th scope="col">Land:</th>
-                    <th scope="col">Huidige locatie:</th>
-                </tr>
-            </thead>
-            <tbody id="tableOutput">
-            </tbody>
-        </table>
-
-        <div class="form-row align-items-center">
-            <div class="col-auto my-1">
-                <label for="amount" class="col-form-label">Hoeveelheid resultaten:</label>
-            </div>
-            <div class="col-auto my-1">
-                <input type="number" name="amount" class="form-control form-control-sm" id="amount" min="1" max="99" maxlength="2" value="10">
-            </div>
-            
-            <div class="col-auto my-1">
-                <label for="genderField" class="col-form-label">Geslacht:</label>
-            </div>
-            
-            <div class="col-auto my-1">
-                <select id="genderField" name="genderField" class="form-control form-control-sm">
-                    <option value=""></option>
-                    <option value="male">Man</option>
-                    <option value="female">Vrouw</option>
-                </select>
-            </div>
-
-            <div class="col-auto my-1">
-                <button id="generator" class="btn btn-primary">Geef resultaten weer</button>
+    <div id="container" class="container-fluid">
+        <div class="row">
+            <div class="col">
+                <h1 class="logo text-center">
+                    <a href="#" onclick="location.reload()"><img src="images/logo.png" width="100" height="100"></a>
+                    <span>FBI-databank</span>
+                </h1>
             </div>
         </div>
-        <h2>Crimineel-tracker-omatic</h2>
-        <div id="fullMap" class="shadow"></div>
+        <div class="row">
+            <div class="col">
+                <div class="table-responsive">
+                    <table id="userTable" class="table table-dark shadow p-3">
+                        <thead>
+                            <tr>
+                                <th scope="col" class="d-none d-sm-table-cell">#</th>
+                                <th scope="col">Afbeelding:</th>
+                                <th scope="col">Voornaam:</th>
+                                <th scope="col">Achternaam:</th>
+                                <th scope="col" class="d-none d-sm-table-cell">Geslacht:</th>
+                                <th scope="col" class="d-none d-sm-table-cell">Geboortedatum:</th>
+                                <th scope="col">Woonplaats:</th>
+                                <th scope="col">Land:</th>
+                                <th scope="col" class="d-none d-sm-table-cell">Huidige locatie:</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tableOutput">
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="row justify-content-center">
+            <div class="col">
+                <div class="form-row align-items-center justify-content-center">
+                    <div class="col-auto my-1">
+                        <label for="amount" class="col-form-label">Hoeveelheid resultaten:</label>
+                    </div>
+                    <div class="col-auto my-1">
+                        <input type="number" name="amount" class="form-control form-control-sm" id="amount" min="1" max="99" maxlength="2" value="10">
+                    </div>
+                    
+                    <div class="col-auto my-1">
+                        <label for="genderField" class="col-form-label">Geslacht:</label>
+                    </div>
+                    
+                    <div class="col-auto my-1">
+                        <select id="genderField" name="genderField" class="form-control form-control-sm">
+                            <option value=""></option>
+                            <option value="male">Man</option>
+                            <option value="female">Vrouw</option>
+                        </select>
+                    </div>
+
+                    <div class="col-auto my-1">
+                        <button id="generator" class="btn btn-primary">Geef resultaten weer</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row justify-content-center">
+            <div class="col justify-content-center">
+                <h2>Crimineel-tracker</h2>
+                <div id="fullMap" class="shadow"></div>
+            </div>
+        </div>
     </div>
     <script src="javascript/main.js"></script>
     <script src="javascript/classes/person.class.js"></script>

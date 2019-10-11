@@ -3,14 +3,16 @@ window.onload = function()
 {
     document.querySelector("#generator").addEventListener('click', function() {retrieveData('https://randomuser.me/api/');});
     document.querySelector("#genderField").addEventListener('change', function() { selectedGender(this.value);});
-    // Maak de kaartdiv eerst onzichtbaar
-    document.querySelector("#fullMap").style.visibility = 'hidden';
     
-    console.log(giveRandomCrime());
+    
+    // Maak de fullMap eerst onzichtbaar
+    document.querySelector("#fullMap").style.display = 'none';
 }
-function appendParametersToUrl()
+
+// Parameters-functionaliteit maken
+function appendParametersToUrl(url)
 {
-    let url = new URL('https://example.com?foo=1&bar=2');
+    url = new URL('https://example.com?foo=1&bar=2');
     let params = new URLSearchParams(url.search.slice(1));
 
     //Add a second foo parameter.
@@ -78,7 +80,10 @@ async function retrieveData(dataFeed)
         arrayOfLatLngs[i] = [person.latitude, person.longitude];
         //arrayOfLatLngs.push(...[person.latitude, person.longitude]); werkt niet
     }
-    document.querySelector("#fullMap").style.visibility = 'visible';
+    // Laat fullmap zien
+    document.querySelector("#fullMap").style.display = 'block';
+    fullMap.invalidateSize(); // Forceer het herrenderen van leaflet
+    // Zoom map op alle markers
     fullMap.fitBounds([arrayOfLatLngs]);
 }
 
@@ -94,6 +99,8 @@ function addRow(tableId, counter, profilePicture, latitude, longitude, firstName
     let incrementCell = newRow.insertCell(-1);
     let incrementalData = document.createTextNode(counter + 1);
     incrementCell.appendChild(incrementalData);
+    // Gooi responsive classes aan cellen die weg moeten bij klein scherm
+    incrementCell.classList.add("d-none", "d-sm-table-cell");
     
     // Afbeeldingscel
     let imageCell = newRow.insertCell(-1);
@@ -113,7 +120,12 @@ function addRow(tableId, counter, profilePicture, latitude, longitude, firstName
         newCell[i] = newRow.insertCell(-1);
         let newText = document.createTextNode(arguments[(i+5)]); // Gebruik de parameter-data vanaf de 5e positie
         newCell[i].appendChild(newText);
+        console.log(arguments[i]);
     }
+
+    // Toevoegen van responsive-klassen aan bepaalde cellen
+    newCell[2].classList.add("d-none", "d-sm-table-cell"); // Geslacht-cell
+    newCell[3].classList.add("d-none", "d-sm-table-cell"); // Geboortedatum-cell
 
     // Kaart-cel
     let mapCell = [];
@@ -122,7 +134,7 @@ function addRow(tableId, counter, profilePicture, latitude, longitude, firstName
     mapCell = newRow.insertCell(-1);
     newMap = document.createElement("div");
     newMap.id = "geoMap-" + counter;
-    newMap.classList.add("geoMap");
+    newMap.classList.add("geoMap","d-none", "d-sm-table-cell", "shadow");
     mapCell.appendChild(newMap);
 
     // Daadwerkelijke kaart-genereer-functie

@@ -20,8 +20,8 @@
 .geoMap
 {
     position: inherit;
-    border: 1px solid black;
     border-radius: 8px;
+    border-collapse: collapse;
     height: 180px;  /* or as desired */
     width: 200px;  /* This means "100% of the width of its container", the .col-md-8 */
 }
