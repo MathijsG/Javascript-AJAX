@@ -1,3 +1,6 @@
+let firstTime = true;
+
+
 // Koppel events aan bepaalde elementen
 window.onload = function()
 {
@@ -50,16 +53,21 @@ async function retrieveData(dataFeed)
     const response = await fetch(dataFeed);
     const myJson = await response.json();
     
+
+    if (firstTime == false)
+    {
+        fullMap.off();
+        fullMap.remove();
+    }
+
     // Initializeren van de hoofdkaart
-    var fullMap = L.map('fullMap').setView([51.505, -0.09], 4);
-    L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}',
+    fullMap = L.map('fullMap').setView([51.505, -0.09], 4);
+    L.tileLayer('https://a.tile.openstreetmap.org/{z}/{x}/{y}.png',
     {
         maxZoom: 18,
-        id: 'mapbox.streets',
-        accessToken: 'pk.eyJ1IjoibXNnYmlnaG91c2UiLCJhIjoiY2sxaHdrY214MDZkbDNoanpwNW9rcjRsOSJ9.YXMtqR_k0YWeKNnAZHmhdg'
+        id: 'mapbox.streets'
     })
     .addTo(fullMap);
-
     let arrayOfLatLngs = []; // Array met coordinaten
     var bounds = new L.LatLngBounds(arrayOfLatLngs);
     // Itereer door de JSON-resultaten en sla de gegevens op in een array van persoonsobjecten
@@ -120,7 +128,6 @@ function addRow(tableId, counter, profilePicture, latitude, longitude, firstName
         newCell[i] = newRow.insertCell(-1);
         let newText = document.createTextNode(arguments[(i+5)]); // Gebruik de parameter-data vanaf de 5e positie
         newCell[i].appendChild(newText);
-        console.log(arguments[i]);
     }
 
     // Toevoegen van responsive-klassen aan bepaalde cellen
@@ -139,6 +146,8 @@ function addRow(tableId, counter, profilePicture, latitude, longitude, firstName
 
     // Daadwerkelijke kaart-genereer-functie
     renderMap(myMap, counter, latitude, longitude);
+
+    firstTime = false; // boolean om te checken of het hoofdkaart-element eerst verwijderd moet worden, als deze al een keer geladen is.
 }
 
 // Functie voor het wisselen van de gender
@@ -154,11 +163,10 @@ function renderMap(myMap, counter, latitude, longitude)
 {
     myMap[counter] = L.map('geoMap-' + counter).setView([latitude, longitude], 4);
     L.marker([latitude, longitude]).addTo(myMap[counter]);
-    L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}',
+    L.tileLayer('https://a.tile.openstreetmap.org/{z}/{x}/{y}.png',
     {
         maxZoom: 18,
-        id: 'mapbox.streets',
-        accessToken: 'pk.eyJ1IjoibXNnYmlnaG91c2UiLCJhIjoiY2sxaHdrY214MDZkbDNoanpwNW9rcjRsOSJ9.YXMtqR_k0YWeKNnAZHmhdg'
+        id: 'mapbox.streets'
     })
     .addTo(myMap[counter]);
 }
